@@ -29,47 +29,15 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install Pillow requests
-
-    - name: Fetch page branch content into static/
-      run: |
-        if git ls-remote --exit-code --heads origin page; then
-          git fetch origin page
-          rm -rf static
-          mkdir static
-          git --work-tree=static checkout origin/page -- .
-        else
-          echo "No 'page' branch exists, skipping fetch."
-          mkdir -p static
-        fi
-        ls
+        pip install Pillow requests python-telegram-bot
+        pip install Pillow requests python-telegram-bot
 
     - name: Run Python script to get Bing image
       run: python main.py
-
-    - name: Configure git
-      run: |
-        git config --global user.email "actions@github.com"
-        git config --global user.name "GitHub Actions"
-
-    - name: Commit and push to page branch
-      run: |
-        cp ./page/index.html static/
-        cp ./page/favicon.ico static/
-        cp ./page/readme.md static/
-        cp ./page/edgeone.json static/
-        cd static
-        git init
-        git checkout -b page
-        git add .
-        git commit -m "⏱️GitHub Action每日定时更新"
-        git push --force https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git page
-
-    - name: Delete Workflow Runs
-      uses: Mattraks/delete-workflow-runs@v2
-      with:
-        retain_days: 30
-        keep_minimum_runs: 6
+      env:
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+      
 
   keepalive-workflow:
     name: Keepalive Workflow

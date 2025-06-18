@@ -1,5 +1,12 @@
 # 🌅 Daily Bing Image 自动更新项目
 
+# 查看
+
+通过 telegram 频道发布每日图片，图片永久保存
+
+点击查看：[https://t.me/bing_daily_photo](https://t.me/bing_daily_photo)
+
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/willow-god/daily-image/refs/heads/page/daily.webp" alt="Daily Bing Wallpaper" width="600" />
 </p>
