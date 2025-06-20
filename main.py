@@ -26,7 +26,7 @@ def fetch_bing_image(region):
     if region == "Global":
         url = "https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&uhd=1"
     elif region == "China":
-        url = "https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&uhd=1"
+        url = "https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&uhd=1&mkt=zh-cn"
     try:
         resp = requests.get(url)
         resp.raise_for_status()
@@ -93,7 +93,7 @@ async def upload_to_telegram(bot, channel_id, jpeg_path, zip_path, copyright_tex
     """上传文件到Telegram频道"""
     try:
         # 第一条消息：发送图片，附带版权信息和日期
-        caption = f"标题：{title_text}\n版权：{copyright_text} \n日期：{date}"
+        caption = f"标题：{title_text}\n版权：{copyright_text} \n日期：{date}\n地区：{region}"
         with open(jpeg_path, 'rb') as photo:
             await bot.send_photo(chat_id=channel_id, photo=photo, caption=caption)
         logging.info(f"上传图片 {jpeg_path} 成功，附带描述: {caption}")
