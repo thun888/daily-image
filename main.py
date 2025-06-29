@@ -74,14 +74,14 @@ def save_image(img, filepath, format="WEBP"):
         logging.error(f"保存图片失败 {filepath}: {e}")
         return False
 
-def create_zip_file(date, DAILY_WEBP_PATH,DAILY_JPEG_PATH,ORIGINAL_JPEG_PATH,region):
+def create_zip_file(date, DAILY_WEBP_PATH,ORIGINAL_JPEG_PATH,region):
     """创建包含图片的zip文件"""
     zip_filename = f"{date}({region}).zip"
     zip_filepath = os.path.join(STATIC_FOLDER, zip_filename)
     try:
         with zipfile.ZipFile(zip_filepath, 'w') as zipf:
             zipf.write(DAILY_WEBP_PATH, os.path.basename(DAILY_WEBP_PATH))
-            zipf.write(DAILY_JPEG_PATH, os.path.basename(DAILY_JPEG_PATH))
+            # zipf.write(DAILY_JPEG_PATH, os.path.basename(DAILY_JPEG_PATH))
             zipf.write(ORIGINAL_JPEG_PATH, os.path.basename(ORIGINAL_JPEG_PATH))
         logging.info(f"创建zip文件: {zip_filepath}")
         return zip_filepath
@@ -123,10 +123,10 @@ async def main():
 
         # 保存图片
         DAILY_WEBP_PATH = os.path.join(STATIC_FOLDER, f"{date}({region}).webp")
-        DAILY_JPEG_PATH = os.path.join(STATIC_FOLDER, f"{date}({region}).jpeg")
+        # DAILY_JPEG_PATH = os.path.join(STATIC_FOLDER, f"{date}({region}).jpeg")
         ORIGINAL_JPEG_PATH = os.path.join(STATIC_FOLDER, f"{date}({region}).jpeg")
         save_image(img, DAILY_WEBP_PATH, "WEBP")
-        save_image(img, DAILY_JPEG_PATH, "JPEG")
+        # save_image(img, DAILY_JPEG_PATH, "JPEG")
         save_image(img, ORIGINAL_JPEG_PATH, "JPEG")
 
         # 重命名 daily.jpeg 为 {date}.jpeg
@@ -135,7 +135,7 @@ async def main():
         # logging.info(f"重命名 daily.jpeg 为 {date}({region}).jpeg")
 
         # 创建zip文件
-        zip_path = create_zip_file(date, DAILY_WEBP_PATH,DAILY_JPEG_PATH,ORIGINAL_JPEG_PATH,region)
+        zip_path = create_zip_file(date, DAILY_WEBP_PATH,ORIGINAL_JPEG_PATH,region)
 
         if zip_path is None:
             return
